@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Briefing Pré-Reunião — MENTORIA GPS</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1814;
+  --ink-2: #4a4740;
+  --ink-3: #8c8880;
+  --bg: #f7f4ef;
+  --bg-2: #eeebe4;
+  --gold: #b8860b;
+  --gold-light: #f5efd8;
+  --border: #ddd9d0;
+  --white: #ffffff;
+  --success-bg: #eaf5ee;
+  --success: #1a6b3c;
+  --danger: #c0392b;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── STICKY HEADER ── */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.top-bar-brand {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.progress-wrap { flex: 1; }
+.progress-track {
+  height: 3px;
+  background: var(--bg-2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: width .5s ease;
+  width: 0%;
+}
+.progress-pct {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 3px;
+  text-align: right;
+}
+
+/* ── PAGE WRAP ── */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px 100px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 36px 0 32px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+}
+.hero-tag {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(24px, 6vw, 38px);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero p {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+/* ── SECTIONS ── */
+.section { margin-bottom: 44px; }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.section-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--gold-light);
+  line-height: 1;
+  min-width: 28px;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+/* ── FIELDS ── */
+.field { margin-bottom: 20px; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+.field label .req { color: var(--gold); }
+.field .hint {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,134,11,.12);
+}
+textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238c8880' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }
+
+/* ── OPTIONS ── */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+@media (max-width: 380px) {
+  .options-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+.opt:active { transform: scale(.98); }
+.opt input { display: none; }
+.opt .check {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.opt.is-radio .check { border-radius: 50%; }
+.opt span { font-size: 13px; color: var(--ink-2); line-height: 1.3; }
+
+.opt.sel { border-color: var(--gold); background: var(--gold-light); }
+.opt.sel .check { background: var(--gold); border-color: var(--gold); }
+.opt.sel .check::after {
+  content: '';
+  display: block;
+  width: 8px; height: 8px;
+  background: var(--white);
+  border-radius: 50%;
+}
+.opt.sel span { color: var(--ink); font-weight: 500; }
+
+/* ── HIGHLIGHT NOTE ── */
+.note {
+  background: var(--gold-light);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+/* ── SUBMIT ── */
+.submit-area {
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.btn-submit {
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 16px 48px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  letter-spacing: .02em;
+  transition: background .15s, transform .1s;
+  width: 100%;
+  max-width: 360px;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-submit:hover { background: var(--gold); }
+.btn-submit:active { transform: scale(.98); }
+.btn-submit:disabled { background: var(--ink-3); cursor: not-allowed; }
+.submit-note {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ── SUCCESS SCREEN ── */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+}
+.success-screen.show { display: block; }
+.success-icon {
+  width: 56px; height: 56px;
+  background: var(--success-bg);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 24px;
+}
+.success-screen h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.success-screen p {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 360px;
+  margin: 0 auto 24px;
+}
+.btn-outro {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-outro:hover { border-color: var(--gold); color: var(--ink); }
+
+/* ── ERROR ── */
+.err-msg {
+  font-size: 12px;
+  color: var(--danger);
+  margin-top: 4px;
+  display: none;
+}
+.field.has-error input,
+.field.has-error textarea,
+.field.has-error select {
+  border-color: var(--danger);
+}
+.field.has-error .err-msg { display: block; }
+
+/* ── LOADING OVERLAY ── */
+.loading {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(247,244,239,.85);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+.loading.show { display: flex; }
+.spinner {
+  width: 32px; height: 32px;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading p { font-size: 13px; color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP BAR -->
+<div class="top-bar">
+  <span class="top-bar-brand">MENTORIA GPS</span>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+    <div class="progress-pct" id="prog-pct">0% preenchido</div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <p>Enviando briefing...</p>
+</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Briefing Pré-Reunião</div>
+    <h1>Planejamento<br><em>estratégico</em> da sua loja</h1>
+    <p>Preencha antes da sua sessão. Quanto mais detalhe você trouxer, mais tempo da reunião vai para solução — não para diagnóstico.</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success">
+    <div class="success-icon">✓</div>
+    <h2>Briefing enviado!</h2>
+    <p>Seu mentor já recebeu. Nos vemos na reunião — vamos direto ao ponto.</p>
+    <button class="btn-outro" onclick="location.reload()">Preencher novamente</button>
+  </div>
+
+  <form id="form" novalidate>
+
+    <!-- ── 01 IDENTIFICAÇÃO ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <span class="section-title">Identificação</span>
+      </div>
+      <div class="row-2">
+        <div class="field" id="f-nome">
+          <label>Nome completo <span class="req">*</span></label>
+          <input type="text" name="nome" placeholder="Seu nome" autocomplete="name">
+          <span class="err-msg">Preencha seu nome</span>
+        </div>
+        <div class="field">
+          <label>Nome da loja / marca</label>
+          <input type="text" name="loja" placeholder="Ex: Cross Experience">
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>WhatsApp</label>
+          <input type="tel" name="whatsapp" placeholder="(XX) XXXXX-XXXX" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label>Tempo na mentoria</label>
+          <select name="tempo_mentoria">
+            <option value="">Selecione</option>
+            <option>Menos de 1 mês</option>
+            <option>1 a 3 meses</option>
+            <option>3 a 6 meses</option>
+            <option>Mais de 6 meses</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 02 PLATAFORMAS ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">Plataformas ativas</span>
+      </div>
+      <div class="field">
+        <label>Onde você vende hoje?</label>
+        <div class="options-grid">
+          <label class="opt"><input type="checkbox" name="plataformas" value="Mercado Livre"><span class="check"></span><span>Mercado Livre</span></label>
+          <label class="opt"><input type="checkbox" name="plataformas" value="Shopee"><span class="check"></span><span>Shopee</span></label>
+          <label class="opt"><input type="checkbox" name="plataformas" value="TikTok Shop"><span class="check"></span><span>TikTok Shop</span></label>
+          <label class="opt"><input type="checkbox" name="plataformas" value="Amazon"><span class="check"></span><span>Amazon</span></label>
+          <label class="opt"><input type="checkbox" name="plataformas" value="Site próprio"><span class="check"></span><span>Site próprio</span></label>
+          <label class="opt"><input type="checkbox" name="plataformas" value="Outra"><span class="check"></span><span>Outra</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Principal plataforma em faturamento</label>
+        <select name="plataforma_principal">
+          <option value="">Selecione</option>
+          <option>Mercado Livre</option>
+          <option>Shopee</option>
+          <option>TikTok Shop</option>
+          <option>Amazon</option>
+          <option>Site próprio</option>
+          <option>Equilibrado entre elas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Logística atual no Mercado Livre</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="logistica_ml" value="Correios"><span class="check"></span><span>Correios</span></label>
+          <label class="opt is-radio"><input type="radio" name="logistica_ml" value="Agência ML"><span class="check"></span><span>Agência ML</span></label>
+          <label class="opt is-radio"><input type="radio" name="logistica_ml" value="Flex"><span class="check"></span><span>Flex</span></label>
+          <label class="opt is-radio"><input type="radio" name="logistica_ml" value="Full"><span class="check"></span><span>Full</span></label>
+          <label class="opt is-radio"><input type="radio" name="logistica_ml" value="Não vendo no ML"><span class="check"></span><span>Não vendo no ML</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 03 NÚMEROS ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <span class="section-title">Números dos últimos 30 dias</span>
+      </div>
+      <div class="note">Aproxime se não souber o exato — esses dados guiam toda a sessão.</div>
+      <div class="row-2">
+        <div class="field">
+          <label>Faturamento total (R$)</label>
+          <input type="number" name="faturamento" placeholder="Ex: 32000" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label>Investimento em ADS (R$)</label>
+          <input type="number" name="investimento_ads" placeholder="Ex: 1700" inputmode="decimal">
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>TACOS atual (%)</label>
+          <div class="hint">ADS ÷ Faturamento × 100</div>
+          <input type="number" name="tacos" placeholder="Ex: 5.2" step="0.1" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label>Unidades vendidas</label>
+          <input type="number" name="unidades" placeholder="Ex: 365" inputmode="numeric">
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Ticket médio (R$)</label>
+          <input type="number" name="ticket_medio" placeholder="Ex: 70" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label>Margem líquida estimada (%)</label>
+          <input type="number" name="margem" placeholder="Ex: 20" step="0.5" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label>Comparado ao mês anterior, o faturamento:</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="tendencia" value="Cresceu muito"><span class="check"></span><span>Cresceu muito</span></label>
+          <label class="opt is-radio"><input type="radio" name="tendencia" value="Cresceu um pouco"><span class="check"></span><span>Cresceu um pouco</span></label>
+          <label class="opt is-radio"><input type="radio" name="tendencia" value="Ficou estável"><span class="check"></span><span>Ficou estável</span></label>
+          <label class="opt is-radio"><input type="radio" name="tendencia" value="Caiu"><span class="check"></span><span>Caiu</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 04 PRODUTOS ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <span class="section-title">Produtos e estoque</span>
+      </div>
+      <div class="field">
+        <label>Produto campeão (que mais vende)</label>
+        <input type="text" name="produto_campeao" placeholder="Ex: Moletom zíper liso preto">
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Custo desse produto (R$)</label>
+          <input type="number" name="custo_campeao" placeholder="Ex: 35.00" step="0.01" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label>Preço de venda (R$)</label>
+          <input type="number" name="preco_campeao" placeholder="Ex: 69.90" step="0.01" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label>Modelo de operação do estoque</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="modelo_estoque" value="Estoque próprio"><span class="check"></span><span>Estoque próprio</span></label>
+          <label class="opt is-radio"><input type="radio" name="modelo_estoque" value="Dropshipping"><span class="check"></span><span>Dropshipping</span></label>
+          <label class="opt is-radio"><input type="radio" name="modelo_estoque" value="Misto"><span class="check"></span><span>Misto</span></label>
+          <label class="opt is-radio"><input type="radio" name="modelo_estoque" value="Fabricação própria"><span class="check"></span><span>Fabricação própria</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Situação do estoque agora</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="situacao_estoque" value="Farto, tranquilo"><span class="check"></span><span>Farto, tranquilo</span></label>
+          <label class="opt is-radio"><input type="radio" name="situacao_estoque" value="OK, mas no limite"><span class="check"></span><span>OK, no limite</span></label>
+          <label class="opt is-radio"><input type="radio" name="situacao_estoque" value="Crítico, pode faltar"><span class="check"></span><span>Crítico</span></label>
+          <label class="opt is-radio"><input type="radio" name="situacao_estoque" value="Já faltou produto"><span class="check"></span><span>Já faltou</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Produto que quer lançar ou testar nesse ciclo</label>
+        <textarea name="novo_produto" placeholder="Descreva o produto, por que quer testar e em qual plataforma"></textarea>
+      </div>
+    </div>
+
+    <!-- ── 05 ADS ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <span class="section-title">ADS e campanhas</span>
+      </div>
+      <div class="field">
+        <label>Nível atual das campanhas</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="nivel_ads" value="N1 — saindo do zero (ROAS 0-5)"><span class="check"></span><span>N1 — saindo do zero</span></label>
+          <label class="opt is-radio"><input type="radio" name="nivel_ads" value="N2 — crescendo (ROAS 5-10)"><span class="check"></span><span>N2 — crescendo</span></label>
+          <label class="opt is-radio"><input type="radio" name="nivel_ads" value="N3 — escalando (ROAS +15)"><span class="check"></span><span>N3 — escalando</span></label>
+          <label class="opt is-radio"><input type="radio" name="nivel_ads" value="Sem ADS ativo"><span class="check"></span><span>Sem ADS ativo</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Maior problema com ADS hoje</label>
+        <textarea name="problema_ads" placeholder="Ex: TACOS alto, campanha não converte, CTR baixo, não sei onde colocar verba..."></textarea>
+      </div>
+      <div class="field">
+        <label>Situação dos afiliados</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="afiliados" value="Funcionando bem"><span class="check"></span><span>Funcionando bem</span></label>
+          <label class="opt is-radio"><input type="radio" name="afiliados" value="Ativo, ROI baixo"><span class="check"></span><span>Ativo, ROI baixo</span></label>
+          <label class="opt is-radio"><input type="radio" name="afiliados" value="Não tenho"><span class="check"></span><span>Não tenho</span></label>
+          <label class="opt is-radio"><input type="radio" name="afiliados" value="Quero implementar"><span class="check"></span><span>Quero implementar</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 06 DESAFIOS ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <span class="section-title">Desafios e prioridades</span>
+      </div>
+      <div class="field">
+        <label>Os 3 maiores obstáculos da sua operação agora</label>
+        <div class="hint">Quanto mais específico, mais direto vai ser o planejamento</div>
+        <textarea name="obstaculos" placeholder="1. &#10;2. &#10;3. " style="min-height:100px"></textarea>
+      </div>
+      <div class="field">
+        <label>O que você já tentou para resolver esses problemas?</label>
+        <textarea name="tentativas" placeholder="O que funcionou? O que não funcionou?"></textarea>
+      </div>
+      <div class="field">
+        <label>Prioridade máxima dos próximos 30 dias</label>
+        <div class="options-grid">
+          <label class="opt is-radio"><input type="radio" name="prioridade" value="Aumentar faturamento"><span class="check"></span><span>Aumentar faturamento</span></label>
+          <label class="opt is-radio"><input type="radio" name="prioridade" value="Reduzir TACOS"><span class="check"></span><span>Reduzir TACOS</span></label>
+          <label class="opt is-radio"><input type="radio" name="prioridade" value="Resolver estoque"><span class="check"></span><span>Resolver estoque</span></label>
+          <label class="opt is-radio"><input type="radio" name="prioridade" value="Nova plataforma"><span class="check"></span><span>Nova plataforma</span></label>
+          <label class="opt is-radio"><input type="radio" name="prioridade" value="Melhorar anúncios"><span class="check"></span><span>Melhorar anúncios</span></label>
+          <label class="opt is-radio"><input type="radio" name="prioridade" value="Organizar financeiro"><span class="check"></span><span>Organizar financeiro</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 07 METAS ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <span class="section-title">Metas e expectativas</span>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Meta — próximos 30 dias (R$)</label>
+          <input type="number" name="meta_30d" placeholder="Ex: 50000" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label>Meta — próximos 90 dias (R$)</label>
+          <input type="number" name="meta_90d" placeholder="Ex: 150000" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label>O que você precisa sair dessa sessão sabendo ou decidindo? <span class="req">*</span></label>
+        <textarea id="f-expectativa" name="expectativa_sessao" placeholder="Ex: Definir qual plataforma priorizar, entender por que o TACOS subiu, planejar estoque para o próximo mês..."></textarea>
+        <span class="err-msg" id="err-expectativa">Preencha sua expectativa para a sessão</span>
+      </div>
+      <div class="field">
+        <label>Outros pontos para trazer na reunião</label>
+        <textarea name="outros" placeholder="Dúvidas específicas, situações fora do padrão, recados para o mentor..."></textarea>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit" id="btn-submit">Enviar briefing para o mentor</button>
+      <p class="submit-note">Suas respostas ficam salvas de forma segura e seu mentor recebe antes da reunião.</p>
+    </div>
+
+  </form>
+</div>
+
+<script>
+/* ─── GOOGLE SHEETS CONFIG ─────────────────────────────────
+   Cole aqui a URL do seu Web App do Google Apps Script
+─────────────────────────────────────────────────────────── */
+const GOOGLE_SHEETS_URL = 'COLE_SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI'
+
+/* ─── OPÇÕES VISUAIS ──────────────────────────────────────── */
+document.querySelectorAll('.opt').forEach(opt => {
+  opt.addEventListener('click', function(e) {
+    if (e.target.tagName === 'INPUT') return
+    const input = this.querySelector('input')
+    if (input.type === 'radio') {
+      document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
+        r.closest('.opt').classList.remove('sel')
+      })
+      this.classList.add('sel')
+      input.checked = true
+    } else {
+      this.classList.toggle('sel')
+      input.checked = this.classList.contains('sel')
+    }
+    updateProgress()
+  })
+})
+
+/* ─── PROGRESS ───────────────────────────────────────────── */
+function updateProgress() {
+  let filled = 0
+  const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="tel"], textarea, select')
+  inputs.forEach(el => { if (el.value.trim()) filled++ })
+  const checks = document.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked')
+  filled += checks.length
+  const total = inputs.length + 12
+  const pct = Math.min(100, Math.round((filled / total) * 100))
+  document.getElementById('prog').style.width = pct + '%'
+  document.getElementById('prog-pct').textContent = pct + '% preenchido'
+}
+
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('input', updateProgress)
+  el.addEventListener('change', updateProgress)
+})
+
+/* ─── COLETA DOS DADOS ───────────────────────────────────── */
+function coletarDados() {
+  const f = document.getElementById('form')
+  const fd = new FormData()
+
+  const g = n => f.querySelector(`[name="${n}"]`)?.value?.trim() || ''
+  const checks = name => Array.from(f.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value).join(', ') || ''
+  const radio = name => f.querySelector(`input[name="${name}"]:checked`)?.value || ''
+
+  fd.append('nome', g('nome'))
+  fd.append('loja', g('loja'))
+  fd.append('whatsapp', g('whatsapp'))
+  fd.append('tempo_mentoria', g('tempo_mentoria'))
+  fd.append('plataformas', checks('plataformas'))
+  fd.append('plataforma_principal', g('plataforma_principal'))
+  fd.append('logistica_ml', radio('logistica_ml'))
+  fd.append('faturamento', g('faturamento'))
+  fd.append('investimento_ads', g('investimento_ads'))
+  fd.append('tacos', g('tacos'))
+  fd.append('unidades', g('unidades'))
+  fd.append('ticket_medio', g('ticket_medio'))
+  fd.append('margem', g('margem'))
+  fd.append('tendencia', radio('tendencia'))
+  fd.append('produto_campeao', g('produto_campeao'))
+  fd.append('custo_campeao', g('custo_campeao'))
+  fd.append('preco_campeao', g('preco_campeao'))
+  fd.append('modelo_estoque', radio('modelo_estoque'))
+  fd.append('situacao_estoque', radio('situacao_estoque'))
+  fd.append('novo_produto', g('novo_produto'))
+  fd.append('nivel_ads', radio('nivel_ads'))
+  fd.append('problema_ads', g('problema_ads'))
+  fd.append('afiliados', radio('afiliados'))
+  fd.append('obstaculos', g('obstaculos'))
+  fd.append('tentativas', g('tentativas'))
+  fd.append('prioridade', radio('prioridade'))
+  fd.append('meta_30d', g('meta_30d'))
+  fd.append('meta_90d', g('meta_90d'))
+  fd.append('expectativa_sessao', g('expectativa_sessao'))
+  fd.append('outros', g('outros'))
+
+  return fd
+}
+
+/* ─── VALIDAÇÃO ──────────────────────────────────────────── */
+function validar(dados) {
+  let ok = true
+  const fNome = document.getElementById('f-nome')
+  if (!dados.get('nome')) {
+    fNome.classList.add('has-error'); ok = false
+  } else {
+    fNome.classList.remove('has-error')
+  }
+  const fExp = document.getElementById('f-expectativa')
+  const errExp = document.getElementById('err-expectativa')
+  if (!dados.get('expectativa_sessao')) {
+    fExp.closest('.field').classList.add('has-error'); ok = false
+  } else {
+    fExp.closest('.field').classList.remove('has-error')
+  }
+  return ok
+}
+
+/* ─── SUBMIT ─────────────────────────────────────────────── */
+document.getElementById('form').addEventListener('submit', async function(e) {
+  e.preventDefault()
+  const dados = coletarDados()
+  if (!validar(dados)) {
+    document.querySelector('.field.has-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    return
+  }
+
+  if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'COLE_SUA_URL_DO_GOOGLE_APPS_SCRIPT_AQUI') {
+    alert('Erro: A URL do Google Sheets não foi configurada no código.')
+    return
+  }
+
+  const loading = document.getElementById('loading')
+  const btn = document.getElementById('btn-submit')
+  loading.classList.add('show')
+  btn.disabled = true
+
+  try {
+    await fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: dados
+    })
+    
+    document.getElementById('form').style.display = 'none'
+    document.querySelector('.hero').style.display = 'none'
+    document.getElementById('success').classList.add('show')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } catch (err) {
+    alert('Erro ao enviar. Verifique sua conexão e tente novamente.\n\n' + err.message)
+    btn.disabled = false
+  } finally {
+    loading.classList.remove('show')
+  }
+})
+</script>
+</body>
+</html>

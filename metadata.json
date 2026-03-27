@@ -1,0 +1,5 @@
+{
+  "name": "GPS Briefing",
+  "description": "Formulário de briefing para mentoria GPS, integrado com Supabase.",
+  "requestFramePermissions": []
+}
